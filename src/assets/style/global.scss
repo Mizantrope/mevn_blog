@@ -1,0 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    background-color: #141e30;
+    background: linear-gradient(to right, #243b55, #141e30);
+    font-family: 'Montserrat';
+    min-height: 100vh;
+  }
+}

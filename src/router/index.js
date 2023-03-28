@@ -1,25 +1,54 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import store from '@/store'
 
 const routes = [
   {
     path: '/',
-    name: 'home',
-    component: HomeView
+    name: 'MainPage',
+    component: () => import('@/pages/MainPage'),
   },
   {
-    path: '/about',
-    name: 'about',
-    // route level code-splitting
-    // this generates a separate chunk (about.[hash].js) for this route
-    // which is lazy-loaded when the route is visited.
-    component: () => import(/* webpackChunkName: "about" */ '../views/AboutView.vue')
-  }
+    path: '/posts',
+    name: 'PostPage',
+    component: () => import('@/pages/PostPage'),
+  },
+  {
+    path: '/:id',
+    name: 'PostPage',
+    component: () => import('@/pages/PostPage'),
+  },
+  {
+    path: '/:id/edit',
+    name: 'EditPostPage',
+    component: () => import('@/pages/EditPostPage'),
+  },
+  {
+    path: '/new',
+    name: 'AddPostPage',
+    component: () => import('@/pages/AddPostPage'),
+  },
+  {
+    path: '/register',
+    name: 'RegisterPage',
+    component: () => import('@/pages/RegisterPage'),
+  },
+  {
+    path: '/login',
+    name: 'LoginPage',
+    component: () => import('@/pages/LoginPage'),
+  },
 ]
 
 const router = createRouter({
   history: createWebHistory(process.env.BASE_URL),
-  routes
+  routes,
+})
+
+router.beforeEach((to, from, next) => {
+  const isAuth = store.getters.authenticate
+  console.log('route: ', isAuth)
+  if (to.fullPath === '/login' && isAuth) next('/')
+  else next()
 })
 
 export default router
